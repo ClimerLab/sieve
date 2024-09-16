@@ -40,7 +40,7 @@ int main(int argc, char **argv) {
 	// Check inputs
 	if (argc != 6) {
 		printf("ERROR: Incorrect Inputs.\n");
-		printf("Usage: %s <input.gml> <output_dir> <output_tag> <total_nodes> comp_num\n", argv[0]);
+		printf("Usage: %s <input.gml> <output_dir> <output_tag> <total_nodes> <comp_num>\n", argv[0]);
 		exit(1);
 	}
 	

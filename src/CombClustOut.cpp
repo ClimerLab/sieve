@@ -12,9 +12,9 @@ void RecordResults(std::string &, std::vector<std::size_t>&, const int, const in
 
 int main(int argc, char **argv) {
   // Check the input format
-	if (argc != 6) {
+	if (argc != 5) {
 		printf("ERROR: Incorrect Inputs.\n");
-		printf("Usage %s orig.gml output_dir output_tag num_comps obj_name\n", argv[0]);
+		printf("Usage %s <orig.gml> <output_dir> <output_tag> <num_comps>\n", argv[0]);
 		exit(1);
 	}
 
@@ -23,8 +23,7 @@ int main(int argc, char **argv) {
 	std::string out_dir(argv[2]);
 	std::string out_tag(argv[3]);
   int num_comps = atoi(argv[4]);
-  std::string obj_name(argv[5]);
-
+  
   Graph my_graph;
   my_graph.readFile(graph_file);
 	
@@ -47,7 +46,7 @@ int main(int argc, char **argv) {
   // Loop through all components
   for(std::size_t comp = 1; comp <= num_comps; ++comp) {
     comp_filename = out_dir + out_tag + "_comp" + std::to_string(comp); 
-    out_filename = comp_filename + "_" + obj_name + ".out";
+    out_filename = comp_filename + "_" + "S.out";
     nn_filename = comp_filename + ".nn";
 
     // Read .out file
@@ -66,7 +65,7 @@ int main(int argc, char **argv) {
   printf("Number of components split: %lu\n\n\n", num_comps_split);
 
   // Record Results
-  std::string output_file = out_dir + out_tag + "_" + obj_name +".out";
+  std::string output_file = out_dir + out_tag + "_" + "S.out";
   RecordResults(output_file, cluster_num, cluster_count, my_graph.getNumEdges());
 
   return 0;

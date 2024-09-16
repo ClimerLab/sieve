@@ -27,7 +27,11 @@ void buildModel_S(IloModel &,
 									const double);
 std::size_t GetIndexFromVertClust(const std::size_t, const std::size_t, const std::size_t);
 void ConvertToClusterNum(std::vector<std::vector<bool>> &, const std::size_t , std::vector<int> &);
-void RecordResult(const std::string &, const std::string &, std::vector<int> &, const std::size_t);
+void RecordResult(const std::string &output_dir,
+									const std::string &run_tag,
+									std::vector<int> &clust_assign,
+									const std::size_t num_edges,
+									const std::size_t comp_num);
 void RecordObjective(const std::string &, const std::size_t, const double, const double);
 void ReadClusterOutputFile(const std::string &, const std::size_t , std::vector<int> &);
 std::size_t get_array_idx(const std::size_t i, const std::size_t j, const std::size_t num_cols);
@@ -46,8 +50,7 @@ int main(int argc, char **argv) {
 	std::size_t total_nodes, total_edges, comp_num;
 	Timer timer;
 	double objValue;
-	bool use_incumbent = false;
-		
+			
 	// Read in user input to local variables
 	gml_file = argv[1];
 	output_dir = argv[2];
@@ -66,7 +69,7 @@ int main(int argc, char **argv) {
 
 	if ( density >= DESNITY_THRESHOLD) {		
 		std::vector<int> single_clust(my_graph.getNumNodes(), 1);
-		RecordResult(output_dir, runtag, single_clust, my_graph.getNumEdges());
+		RecordResult(output_dir, runtag, single_clust, my_graph.getNumEdges(), comp_num);
 		RecordObjective(obj_file_name, comp_num, 0, timer.elapsed_cpu_time());
 		return 0;
 	}
@@ -140,7 +143,7 @@ int main(int argc, char **argv) {
 	}
 	env.end();
 
-	RecordResult(output_dir, runtag, clust_result, my_graph.getNumEdges());
+	RecordResult(output_dir, runtag, clust_result, my_graph.getNumEdges(), comp_num);
 
 	double S_obj = 1 - (objValue / n_sq_n);
 	S_obj = S_obj*my_graph.getNumNodes()/total_nodes;
@@ -266,10 +269,11 @@ void ConvertToClusterNum(std::vector<std::vector<bool>> &in_clust,
 void RecordResult(const std::string &output_dir,
 									const std::string &run_tag,
 									std::vector<int> &clust_assign,
-									const std::size_t m) {
+									const std::size_t num_edges,
+									const std::size_t comp_num) {
 	FILE* output;
 	std::string file_name;
-	file_name = output_dir + run_tag + "_S.out";
+	file_name = output_dir + run_tag + "_comp" + std::to_string(comp_num) + "_S.out";
 	
 	if((output = fopen(file_name.c_str(), "w")) == NULL) {
 		printf("ERROR - Could not open *_MIP.out file(%s).\n", file_name.c_str());
@@ -285,7 +289,7 @@ void RecordResult(const std::string &output_dir,
 			num_clusts = clust_assign[i];
 	}
 	
-	fprintf(output, "%lu nodes %lu clusters %lu edges\n", clust_assign.size(), num_clusts, m);
+	fprintf(output, "%lu nodes %lu clusters %lu edges\n", clust_assign.size(), num_clusts, num_edges);
 	for(std::size_t i = 0; i < clust_assign.size(); ++i)
 		fprintf(output, "%i ", clust_assign[i]);
 

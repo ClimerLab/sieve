@@ -1,6 +1,7 @@
-ORIG_GML=/media/ken/ExtraSpace/School/Research/DataSets/networks/karate.gml
-OUTPUT_DIR=~/Research/sieve/
-RUNTAG=karate
+ORIG_GML=
+OUTPUT_DIR=
+RUNTAG=
+CLEANUP_FLAG=true
 
 # -----------------------------------------------
 # Seperate graph into components
@@ -50,3 +51,25 @@ done
 # -----------------------------------------------
 ./CombClustOut $ORIG_GML $OUTPUT_DIR $RUNTAG $NUM_COMP
 
+# Clean up temp files
+if [ "$CLEANUP_FLAG" = true ]; then
+  if [ -f $OUTPUT_DIR$RUNTAG"_comp0.clust" ]; then
+	  rm $OUTPUT_DIR$RUNTAG"_comp0.clust"
+  fi
+  if [ -f $OUTPUT_DIR$RUNTAG"_comp0.nn" ]; then
+	  rm $OUTPUT_DIR$RUNTAG"_comp0.nn"
+  fi
+
+  for ((CUR_COMP=1; CUR_COMP<=$NUM_COMP; CUR_COMP++))
+  do
+    if [ -f $OUTPUT_DIR$RUNTAG"_comp1_S.out" ]; then
+	    rm $OUTPUT_DIR$RUNTAG"_comp1_S.out"
+    fi
+    if [ -f $OUTPUT_DIR$RUNTAG"_comp1.nn" ]; then
+	    rm $OUTPUT_DIR$RUNTAG"_comp1.nn"
+    fi
+    if [ -f $OUTPUT_DIR$RUNTAG"_comp1.gml" ]; then
+	    rm $OUTPUT_DIR$RUNTAG"_comp1.gml"
+    fi
+  done
+fi

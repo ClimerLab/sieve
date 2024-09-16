@@ -30,3 +30,10 @@
 *.exe
 *.out
 *.app
+S_MIP
+SepComp
+CombClustOut
+
+# Data Files
+*.csv
+*.stats

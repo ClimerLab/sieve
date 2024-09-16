@@ -7,8 +7,8 @@ LIBFORMAT  = static_pic
 #
 #---------------------------------------------------------------------------------------------------
 
-CPLEXDIR      = /opt/ibm/ILOG/CPLEX_Studio221/cplex
-CONCERTDIR    = /opt/ibm/ILOG/CPLEX_Studio221/concert
+CPLEXDIR      = <local_cplex_path>
+CONCERTDIR    = <local_concert_path>
 
 #---------------------------------------------------------------------------------------------------
 # Compiler selection

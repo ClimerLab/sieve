@@ -27,13 +27,14 @@ SRCDIR = src
 # Executables
 #---------------------------------------------------------------------------------------------------
 
-EXE = SepComp S_MIP
+EXE = SepComp S_MIP CombClustOut
 
 #---------------------------------------------------------------------------------------------------
 # Object files
 #---------------------------------------------------------------------------------------------------
 SEPOBJ = SeperateGraphIntoComponents.o Graph.o Vertex.o Edge.o
 SOBJ = S_MIP.o Graph.o Vertex.o Edge.o Timer.o
+CCOOBJ = CombClustOut.o Graph.o Vertex.o Edge.o
 
 #---------------------------------------------------------------------------------------------------
 # Compiler options
@@ -73,6 +74,9 @@ SepComp: $(addprefix $(OBJDIR)/, SeperateGraphIntoComponents.o)
 S_MIP: $(OBJDIR)/S_MIP.o
 	$(CXX) $(CXXLNDIRS) -o $@ $(addprefix $(OBJDIR)/, $(SOBJ)) $(CXXLNFLAGS)
 
+CombClustOut: $(OBJDIR)/CombClustOut.o
+	$(CXX) $(CXXLNDIRS) -o $@ $(addprefix $(OBJDIR)/, $(CCOOBJ)) $(CXXLNFLAGS)
+
 $(OBJDIR)/SeperateGraphIntoComponents.o: $(addprefix $(SRCDIR)/, SeperateGraphIntoComponents.cpp) \
 																																									$(addprefix $(OBJDIR)/, Graph.o)
 	$(CXX) $(CXXFLAGS) -c -o $@ $<
@@ -80,6 +84,9 @@ $(OBJDIR)/SeperateGraphIntoComponents.o: $(addprefix $(SRCDIR)/, SeperateGraphIn
 $(OBJDIR)/S_MIP.o: $(addprefix $(SRCDIR)/, S_MIP.cpp) \
 																			$(addprefix $(OBJDIR)/, Graph.o Vertex.o Edge.o Timer.o)
 	$(CXX) $(CXXFLAGS) $(INCLUDES) -c -o $@ $<
+
+$(OBJDIR)/CombClustOut.o: $(addprefix $(SRCDIR)/, CombClustOut.cpp)
+	$(CXX) $(CXXFLAGS) -c -o $@ $<
 
 $(OBJDIR)/Timer.o: $(addprefix $(SRCDIR)/, Timer.cpp Timer.h)
 	$(CXX) $(CXXFLAGS) -c -o $@ $<

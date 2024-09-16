@@ -26,6 +26,6 @@ CLEANUP_FLAG - Boolean used to control cleanup of temp files
 ## Output
 S_ObjValue.csv - File containint the component number, Sieve value, and run time of each component
 
-<RUNTAG>_S.out - Optimal community assignment for the nodes in the network
+RUNTAG_S.out - Optimal community assignment for the nodes in the network
 
-<RUNTAG>.stats - Statistics from SepComp
+RUNTAG.stats - Statistics from SepComp
